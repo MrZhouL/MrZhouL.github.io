@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="zlTuring的博客">
 <meta property="og:description" content="Mastering Spring MVC4 Note">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-02T04:20:22.000Z">
+<meta property="og:updated_time" content="2018-05-02T15:30:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="精通 Spring MVC4 笔记">
 <meta name="twitter:description" content="Mastering Spring MVC4 Note">
@@ -361,20 +361,15 @@
 <h2 id="精通MVC架构"><a href="#精通MVC架构" class="headerlink" title="精通MVC架构"></a>精通MVC架构</h2><p>半壶子水，晃晃荡荡。</p>
 <h3 id="MVC-架构"><a href="#MVC-架构" class="headerlink" title="MVC 架构"></a>MVC 架构</h3><p>相信大多数人都对这个缩写不会陌生。它代表的是（Model）模型、（View）视图、（Controller）控制器，它会将数据和展现层进行解耦。<br>让我觉得该书对我有帮助的，我觉得还是下面这几点</p>
 <h3 id="对MVC的质疑及其最佳实践"><a href="#对MVC的质疑及其最佳实践" class="headerlink" title="对MVC的质疑及其最佳实践"></a>对MVC的质疑及其最佳实践</h3><p>平时开发中就深有体会，明明框架好像都做了的事，我们又重复的做了一遍。如数据校验。想用它里面的技术，但真的不知道怎么用，只能google如何配置，遇到问题，解决不了，想还不如自己写。由此反复。</p>
-<h4 id="贫血的领域模型"><a href="#贫血的领域模型" class="headerlink" title="贫血的领域模型"></a>贫血的领域模型</h4><p>Eric Evans出色的书籍Domain Driven Design对这些图层有以下说明。</p>
-<blockquote>
-<p>应用层：定义软件应该做的工作，并指导表达域对象来解决问题。该层负责的任务对业务有意义或者与其他系统的应用层进行交互所必需的。这层保持薄。它不包含业务规则或知识，只是协调任务并将工作委托给下一层下的域对象的协作。它没有反映业务情况的状态，但它可以具有反映用户或程序的任务进度的状态。<br>域层（或模型层）：负责表示业务概念，业务情况信息和业务规则。反映业务情况的状态在此处受到控制和使用，即使将其存储的技术细节委托给基础架构。这一层是商业软件的核心<br>其中有一项核心的理念就是将面向对象的范式应用到领域对象之中。如果违背这一原则的话，就会被称之为贫血的领域模型（Anemic Domain Model）。<br>详细可以查看Martin Fowler的<a href="https://www.martinfowler.com/bliki/AnemicDomainModel.html" target="_blank" rel="noopener">博客</a>。<br>如何避免领域贫血的途径如下：</p>
+<h4 id="贫血的领域模型"><a href="#贫血的领域模型" class="headerlink" title="贫血的领域模型"></a>贫血的领域模型</h4><p>Eric Evans出色的书籍Domain Driven Design对这些图层有以下说明。<br><blockquote><p>应用层：定义软件应该做的工作，并指导表达域对象来解决问题。该层负责的任务对业务有意义或者与其他系统的应用层进行交互所必需的。这层保持薄。它不包含业务规则或知识，只是协调任务并将工作委托给下一层下的域对象的协作。它没有反映业务情况的状态，但它可以具有反映用户或程序的任务进度的状态。<br>域层（或模型层）：负责表示业务概念，业务情况信息和业务规则。反映业务情况的状态在此处受到控制和使用，即使将其存储的技术细节委托给基础架构。这一层是商业软件的核心</p>
+<footer><strong>Eric Evans</strong><cite>Domain Driven Design</cite></footer></blockquote><br>其中有一项核心的理念就是将面向对象的范式应用到领域对象之中。如果违背这一原则的话，就会被称之为贫血的领域模型（Anemic Domain Model）。<br>详细可以查看Martin Fowler的<a href="https://www.martinfowler.com/bliki/AnemicDomainModel.html" target="_blank" rel="noopener">博客</a>。<br>如何避免领域贫血的途径如下：</p>
 <ol>
 <li>服务层合适进行应用级别的抽象（如事务处理）而不是业务逻辑；</li>
 <li>领域对象应该始终处于合法状态。通过校验器（validator）或JSR-303的校验注解，让校验过程在表单中进行；</li>
 <li>将输入转化成有意义的领域对象；</li>
 <li>将数据层按照Repository的方式来实现，Repository中会包含领域查询（参考Spring Data规范）；</li>
 <li>将领域逻辑和底层的持久化解耦；</li>
-<li>尽可能使用实际的对象，例如操作FirsName类而不是操作String。</li>
-</ol>
-</blockquote>
-<h2 id="处理表单和复杂的URL映射"><a href="#处理表单和复杂的URL映射" class="headerlink" title="处理表单和复杂的URL映射"></a>处理表单和复杂的URL映射</h2><h2 id="文件上传于错误处理"><a href="#文件上传于错误处理" class="headerlink" title="文件上传于错误处理"></a>文件上传于错误处理</h2><h2 id="创建RESTful应用"><a href="#创建RESTful应用" class="headerlink" title="创建RESTful应用"></a>创建RESTful应用</h2><h2 id="保护应用"><a href="#保护应用" class="headerlink" title="保护应用"></a>保护应用</h2><h2 id="单元测试于验收测试"><a href="#单元测试于验收测试" class="headerlink" title="单元测试于验收测试"></a>单元测试于验收测试</h2><h2 id="优化请求"><a href="#优化请求" class="headerlink" title="优化请求"></a>优化请求</h2><h2 id="将web应用部署到云中"><a href="#将web应用部署到云中" class="headerlink" title="将web应用部署到云中"></a>将web应用部署到云中</h2><h2 id="超越-Spring-Web"><a href="#超越-Spring-Web" class="headerlink" title="超越 Spring Web"></a>超越 Spring Web</h2><h1 id="技术总结"><a href="#技术总结" class="headerlink" title="技术总结"></a>技术总结</h1><p>本书所用到的技术栈如下：</p>
-<ol>
+<li>尽可能使用实际的对象，例如操作FirsName类而不是操作String。<h2 id="处理表单和复杂的URL映射"><a href="#处理表单和复杂的URL映射" class="headerlink" title="处理表单和复杂的URL映射"></a>处理表单和复杂的URL映射</h2><h2 id="文件上传于错误处理"><a href="#文件上传于错误处理" class="headerlink" title="文件上传于错误处理"></a>文件上传于错误处理</h2><h2 id="创建RESTful应用"><a href="#创建RESTful应用" class="headerlink" title="创建RESTful应用"></a>创建RESTful应用</h2><h2 id="保护应用"><a href="#保护应用" class="headerlink" title="保护应用"></a>保护应用</h2><h2 id="单元测试于验收测试"><a href="#单元测试于验收测试" class="headerlink" title="单元测试于验收测试"></a>单元测试于验收测试</h2><h2 id="优化请求"><a href="#优化请求" class="headerlink" title="优化请求"></a>优化请求</h2><h2 id="将web应用部署到云中"><a href="#将web应用部署到云中" class="headerlink" title="将web应用部署到云中"></a>将web应用部署到云中</h2><h2 id="超越-Spring-Web"><a href="#超越-Spring-Web" class="headerlink" title="超越 Spring Web"></a>超越 Spring Web</h2><h1 id="技术总结"><a href="#技术总结" class="headerlink" title="技术总结"></a>技术总结</h1>本书所用到的技术栈如下：</li>
 <li>Spring Boot</li>
 <li>Spring MVC</li>
 <li><a href="https://Gradle.org" target="_blank" rel="noopener">Gradle</a> 现代化的构建工具</li>
