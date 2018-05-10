@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="文档," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="gradle官方文档">
+<meta name="keywords" content="文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gradle 指南之创建构建扫描">
+<meta property="og:url" content="http://yoursite.com/2018/05/10/gradle指南之创建构建扫描/index.html">
+<meta property="og:site_name" content="zlTuring的博客">
+<meta property="og:description" content="gradle官方文档">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://guides.gradle.org/creating-build-scans/images/build_scan_email.png">
+<meta property="og:image" content="https://guides.gradle.org/creating-build-scans/images/build_scan_page.png">
+<meta property="og:updated_time" content="2018-05-10T14:59:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gradle 指南之创建构建扫描">
+<meta name="twitter:description" content="gradle官方文档">
+<meta name="twitter:image" content="https://guides.gradle.org/creating-build-scans/images/build_scan_email.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/10/gradle指南之创建构建扫描/"/>
+
+
+
+
+
+  <title>gradle 指南之创建构建扫描 | zlTuring的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zlTuring的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">zlblog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/gradle指南之创建构建扫描/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zlTuring">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/imgs/Menhera-help.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zlTuring的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">gradle 指南之创建构建扫描</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T21:50:01+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gradle/" itemprop="url" rel="index">
+                    <span itemprop="name">gradle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  gradle官方文档
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="创建构建扫描文档"><a href="#创建构建扫描文档" class="headerlink" title="创建构建扫描文档"></a>创建构建扫描文档</h1><p>构建扫描是构建的可共享和集中记录，可提供对发生事件和原因的深入了解。通过将构建扫描插件应用于您的项目，您可以免费发布构建扫描到<a href="https://scans.gradle.com。" target="_blank" rel="noopener">https://scans.gradle.com。</a></p>
+<h2 id="你会创建什么"><a href="#你会创建什么" class="headerlink" title="你会创建什么"></a>你会创建什么</h2><p>本指南将向您介绍如何在不进行任何构建脚本修改的情况下发布构建扫描。您还将学习如何修改构建脚本，以便为给定项目的所有构建启用构建扫描。或者，您还将修改init脚本以启用所有项目的构建扫描。</p>
+<h2 id="你需要什么"><a href="#你需要什么" class="headerlink" title="你需要什么"></a>你需要什么</h2><ul>
+<li>您可以使用自己的示例项目，也可以使用Gradle提供的示例项目</li>
+<li>访问互联网</li>
+<li>访问您的电子邮件</li>
+<li>大约7分钟</li>
+</ul>
+<h2 id="选择一个示例项目"><a href="#选择一个示例项目" class="headerlink" title="选择一个示例项目"></a>选择一个示例项目</h2><p>Gradle使您可以使用一个简单的Java项目来演示构建扫描功能。如果您想使用它，请克隆或下载位于<a href="https://github.com/gradle/gradle-build-scan-quickstart的存储库。如果您更喜欢使用自己的项目，则可以跳过此步骤。" target="_blank" rel="noopener">https://github.com/gradle/gradle-build-scan-quickstart的存储库。如果您更喜欢使用自己的项目，则可以跳过此步骤。</a></p>
+<h2 id="自动应用构建扫描插件"><a href="#自动应用构建扫描插件" class="headerlink" title="自动应用构建扫描插件"></a>自动应用构建扫描插件</h2><p>从Gradle 4.3开始，您可以在构建脚本中启用构建扫描，而无需在构建脚本中进行任何其他配置。使用命令行选项–scan发布构建扫描时，将自动应用所需的构建扫描插件。在构建结束之前，您需要在命令行上接受许可协议。以下控制台输出显示了该行为。<br>    $ ./gradlew build –scan</p>
+<pre><code>6秒钟成功完成
+
+您是否接受Gradle Cloud Services许可协议（https://gradle.com/terms-of-service）？[是的，没有]
+是
+Gradle Cloud Services许可协议已被接受。
+
+发布构建扫描...
+https://gradle.com/s/czajmbyg73t62
+</code></pre><p>这种机制可以非常容易地生成临时的一次构建扫描，而无需在构建中配置构建扫描插件。如果您需要更细粒度的配置，则可以按照以下各节中所述，在构建脚本或init脚本中配置构建扫描插件。</p>
+<h2 id="在项目的所有版本上启用构建扫描"><a href="#在项目的所有版本上启用构建扫描" class="headerlink" title="在项目的所有版本上启用构建扫描"></a>在项目的所有版本上启用构建扫描</h2><p>plugins使用以下内容将块添加到根项目构建脚本文件中：<br>build.gradle下</p>
+<pre><code>plugins {
+    id &apos;com.gradle.build-scan&apos; version &apos;1.13.2&apos; 
+}
+</code></pre><p>或build.gradle.kts下</p>
+<pre><code>plugins {
+    id(&quot;com.gradle.build-scan&quot;) version &quot;1.13.2&quot; 
+}
+</code></pre><p>使用Gradle Plugin Portal上的最新插件版本。<br>如果您已经有一个plugins块，请始终先安装构建扫描插件。将它添加到任何现有插件下方仍然可以使用，但会遗漏有用的信息。</p>
+<h2 id="接受许可协议"><a href="#接受许可协议" class="headerlink" title="接受许可协议"></a>接受许可协议</h2><p>为了将构建扫描发布到<a href="https://scans.gradle.com，您需要接受许可协议。这可以在发布时通过命令行临时完成，但也可以在您的Gradle构建文件中指定，方法是添加以下部分：" target="_blank" rel="noopener">https://scans.gradle.com，您需要接受许可协议。这可以在发布时通过命令行临时完成，但也可以在您的Gradle构建文件中指定，方法是添加以下部分：</a><br>build.gradle下</p>
+<pre><code>buildScan {
+    termsOfServiceUrl = &apos;https://gradle.com/terms-of-service&apos;
+    termsOfServiceAgree = &apos;yes&apos;
+}
+</code></pre><p>或build.gradle.kts下</p>
+<pre><code>buildScan {
+    setTermsOfServiceUrl(&quot;https://gradle.com/terms-of-service&quot;)
+    setTermsOfServiceAgree(&quot;yes&quot;)
+}
+</code></pre><p>该buildScan块允许您配置插件。您在此设置接受许可协议所需的两个属性。其他属性可用。有关详细信息，请参阅<a href="https://docs.gradle.com/build-scan-plugin/?_ga=2.170627104.1255618932.1525922524-29619511.1524466760" target="_blank" rel="noopener">Build Scans用户手册</a>。</p>
+<h2 id="发布构建扫描"><a href="#发布构建扫描" class="headerlink" title="发布构建扫描"></a>发布构建扫描</h2><p>使用名为的命令行标志发布构建扫描–scan。<br>build使用该–scan选项运行任务。构建完成后，将构建数据上传到scans.gradle.com后，您将看到一个链接以查看构建扫描。</p>
+<pre><code>$ ./gradlew build --scan
+
+5秒钟成功完成
+
+发布构建扫描...
+https://gradle.com/s/47i5oe7dhgz2c
+</code></pre><h2 id="在线访问构建扫描"><a href="#在线访问构建扫描" class="headerlink" title="在线访问构建扫描"></a>在线访问构建扫描</h2><p>您第一次关注该链接时，系统会要求您激活创建的构建扫描。<br>您收到的用于激活构建扫描的电子邮件看起来类似于：</p>
+<p><img src="https://guides.gradle.org/creating-build-scans/images/build_scan_email.png" alt=""></p>
+<p>按照电子邮件中提供的链接，您将看到创建的构建扫描。</p>
+<p><img src="https://guides.gradle.org/creating-build-scans/images/build_scan_page.png" alt=""></p>
+<p>您现在可以浏览构建扫描中包含的所有信息，包括执行任务所需的时间，构建的每个阶段所需的时间，任何测试的结果，使用的插件和其他依赖关系，使用的任何命令行开关， 和更多。</p>
+<h2 id="为所有构建启动构建扫描（可选）"><a href="#为所有构建启动构建扫描（可选）" class="headerlink" title="为所有构建启动构建扫描（可选）"></a>为所有构建启动构建扫描（可选）</h2><p>您可以避免必须使用Gradle初始化脚本将插件和许可协议添加到每个构建。</p>
+<pre><code>~/.gradle/init.d
+</code></pre><p>使用以下内容在目录（代字符表示您的主目录）中创建一个文件：<br>build.gradle下</p>
+<pre><code>initscript {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath &apos;com.gradle:build-scan-plugin:1.13.2&apos;
+    }
+}
+
+rootProject {
+    apply plugin: com.gradle.scan.plugin.BuildScanPlugin
+
+    buildScan {
+        termsOfServiceUrl = &apos;https://gradle.com/terms-of-service&apos;
+        termsOfServiceAgree = &apos;yes&apos;
+    }
+}
+</code></pre><p>或build.gradle.kts下</p>
+<pre><code>initscript {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath(&quot;com.gradle:build-scan-plugin:1.13.2&quot;)
+    }
+}
+
+rootProject {
+    apply&lt;com.gradle.scan.plugin.BuildScanPlugin&gt;()
+
+    configure&lt;com.gradle.scan.plugin.BuildScanExtension&gt; {
+        setTermsOfServiceUrl(&quot;https://gradle.com/terms-of-service&quot;)
+        setTermsOfServiceAgree(&quot;yes&quot;)
+    }
+}
+</code></pre><p>初始化脚本在必要时下载构建扫描插件并将其应用于每个项目，并接受许可协议。现在，您可以–scan在系统上的任何版本上使用该标志。<br>您还可以将其他功能添加到脚本中，例如发布扫描信息的条件。有关详细信息，请参阅<a href="https://docs.gradle.com/build-scan-plugin/?_ga=2.125358090.1255618932.1525922524-29619511.1524466760" target="_blank" rel="noopener">Build Scans用户手册</a>。</p>
+<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>在本指南中，您学习了如何：</p>
+<ul>
+<li>生成构建扫描</li>
+<li>在线查看构建扫描信息</li>
+<li>创建一个init脚本以启用所有构建的构建扫描  </li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文档/" rel="tag"># 文档</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/02/精通-Spring-MVC4-笔记/" rel="next" title="精通 Spring MVC4 笔记">
+                <i class="fa fa-chevron-left"></i> 精通 Spring MVC4 笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/gradle指南之创建新的Gradle构建/" rel="prev" title="gradle 指南之创建新的Gradle构建">
+                gradle 指南之创建新的Gradle构建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/imgs/Menhera-help.jpg"
+                alt="zlTuring" />
+            
+              <p class="site-author-name" itemprop="name">zlTuring</p>
+              <p class="site-description motion-element" itemprop="description">zlTuring的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#创建构建扫描文档"><span class="nav-number">1.</span> <span class="nav-text">创建构建扫描文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#你会创建什么"><span class="nav-number">1.1.</span> <span class="nav-text">你会创建什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你需要什么"><span class="nav-number">1.2.</span> <span class="nav-text">你需要什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择一个示例项目"><span class="nav-number">1.3.</span> <span class="nav-text">选择一个示例项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动应用构建扫描插件"><span class="nav-number">1.4.</span> <span class="nav-text">自动应用构建扫描插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在项目的所有版本上启用构建扫描"><span class="nav-number">1.5.</span> <span class="nav-text">在项目的所有版本上启用构建扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接受许可协议"><span class="nav-number">1.6.</span> <span class="nav-text">接受许可协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布构建扫描"><span class="nav-number">1.7.</span> <span class="nav-text">发布构建扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线访问构建扫描"><span class="nav-number">1.8.</span> <span class="nav-text">在线访问构建扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为所有构建启动构建扫描（可选）"><span class="nav-number">1.9.</span> <span class="nav-text">为所有构建启动构建扫描（可选）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">2.</span> <span class="nav-text">概要</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zlTuring</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
