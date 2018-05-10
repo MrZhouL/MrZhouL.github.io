@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://guides.gradle.org/creating-build-scans/images/build_scan_email.png">
 <meta property="og:image" content="https://guides.gradle.org/creating-build-scans/images/build_scan_page.png">
-<meta property="og:updated_time" content="2018-05-10T14:59:26.000Z">
+<meta property="og:updated_time" content="2018-05-10T15:55:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle 指南之创建构建扫描">
 <meta name="twitter:description" content="gradle官方文档">
@@ -359,7 +359,7 @@
       
 
       
-        <h1 id="创建构建扫描文档"><a href="#创建构建扫描文档" class="headerlink" title="创建构建扫描文档"></a>创建构建扫描文档</h1><p>构建扫描是构建的可共享和集中记录，可提供对发生事件和原因的深入了解。通过将构建扫描插件应用于您的项目，您可以免费发布构建扫描到<a href="https://scans.gradle.com。" target="_blank" rel="noopener">https://scans.gradle.com。</a></p>
+        <h1 id="创建构建扫描文档"><a href="#创建构建扫描文档" class="headerlink" title="创建构建扫描文档"></a>创建构建扫描文档</h1><p>构建扫描是构建的可共享和集中记录，可提供对发生事件和原因的深入了解。通过将构建扫描插件应用于您的项目，您可以免费发布构建扫描到<a href="https://scans.gradle.com" target="_blank" rel="noopener">https://scans.gradle.com</a>。</p>
 <h2 id="你会创建什么"><a href="#你会创建什么" class="headerlink" title="你会创建什么"></a>你会创建什么</h2><p>本指南将向您介绍如何在不进行任何构建脚本修改的情况下发布构建扫描。您还将学习如何修改构建脚本，以便为给定项目的所有构建启用构建扫描。或者，您还将修改init脚本以启用所有项目的构建扫描。</p>
 <h2 id="你需要什么"><a href="#你需要什么" class="headerlink" title="你需要什么"></a>你需要什么</h2><ul>
 <li>您可以使用自己的示例项目，也可以使用Gradle提供的示例项目</li>
@@ -367,7 +367,7 @@
 <li>访问您的电子邮件</li>
 <li>大约7分钟</li>
 </ul>
-<h2 id="选择一个示例项目"><a href="#选择一个示例项目" class="headerlink" title="选择一个示例项目"></a>选择一个示例项目</h2><p>Gradle使您可以使用一个简单的Java项目来演示构建扫描功能。如果您想使用它，请克隆或下载位于<a href="https://github.com/gradle/gradle-build-scan-quickstart的存储库。如果您更喜欢使用自己的项目，则可以跳过此步骤。" target="_blank" rel="noopener">https://github.com/gradle/gradle-build-scan-quickstart的存储库。如果您更喜欢使用自己的项目，则可以跳过此步骤。</a></p>
+<h2 id="选择一个示例项目"><a href="#选择一个示例项目" class="headerlink" title="选择一个示例项目"></a>选择一个示例项目</h2><p>Gradle使您可以使用一个简单的Java项目来演示构建扫描功能。如果您想使用它，请克隆或下载位于<a href="https://github.com/gradle/gradle-build-scan-quickstart" target="_blank" rel="noopener">https://github.com/gradle/gradle-build-scan-quickstart</a>的存储库。如果您更喜欢使用自己的项目，则可以跳过此步骤。</p>
 <h2 id="自动应用构建扫描插件"><a href="#自动应用构建扫描插件" class="headerlink" title="自动应用构建扫描插件"></a>自动应用构建扫描插件</h2><p>从Gradle 4.3开始，您可以在构建脚本中启用构建扫描，而无需在构建脚本中进行任何其他配置。使用命令行选项–scan发布构建扫描时，将自动应用所需的构建扫描插件。在构建结束之前，您需要在命令行上接受许可协议。以下控制台输出显示了该行为。<br>    $ ./gradlew build –scan</p>
 <pre><code>6秒钟成功完成
 
@@ -387,7 +387,7 @@ https://gradle.com/s/czajmbyg73t62
     id(&quot;com.gradle.build-scan&quot;) version &quot;1.13.2&quot; 
 }
 </code></pre><p>使用Gradle Plugin Portal上的最新插件版本。<br>如果您已经有一个plugins块，请始终先安装构建扫描插件。将它添加到任何现有插件下方仍然可以使用，但会遗漏有用的信息。</p>
-<h2 id="接受许可协议"><a href="#接受许可协议" class="headerlink" title="接受许可协议"></a>接受许可协议</h2><p>为了将构建扫描发布到<a href="https://scans.gradle.com，您需要接受许可协议。这可以在发布时通过命令行临时完成，但也可以在您的Gradle构建文件中指定，方法是添加以下部分：" target="_blank" rel="noopener">https://scans.gradle.com，您需要接受许可协议。这可以在发布时通过命令行临时完成，但也可以在您的Gradle构建文件中指定，方法是添加以下部分：</a><br>build.gradle下</p>
+<h2 id="接受许可协议"><a href="#接受许可协议" class="headerlink" title="接受许可协议"></a>接受许可协议</h2><p>为了将构建扫描发布到<a href="https://scans.gradle.com" target="_blank" rel="noopener">https://scans.gradle.com</a>，您需要接受许可协议。这可以在发布时通过命令行临时完成，但也可以在您的Gradle构建文件中指定，方法是添加以下部分：<br>build.gradle下</p>
 <pre><code>buildScan {
     termsOfServiceUrl = &apos;https://gradle.com/terms-of-service&apos;
     termsOfServiceAgree = &apos;yes&apos;
