@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="文档," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="gradle官方文档">
+<meta name="keywords" content="文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gradle 指南之构建java web应用程序">
+<meta property="og:url" content="http://yoursite.com/2018/05/20/gradle-指南之构建java-web应用程序/index.html">
+<meta property="og:site_name" content="zlTuring的博客">
+<meta property="og:description" content="gradle官方文档">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://guides.gradle.org/building-java-web-applications/images/test-results.png">
+<meta property="og:updated_time" content="2018-05-20T15:24:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gradle 指南之构建java web应用程序">
+<meta name="twitter:description" content="gradle官方文档">
+<meta name="twitter:image" content="https://guides.gradle.org/building-java-web-applications/images/test-results.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/20/gradle-指南之构建java-web应用程序/"/>
+
+
+
+
+
+  <title>gradle 指南之构建java web应用程序 | zlTuring的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zlTuring的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">zlblog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/gradle-指南之构建java-web应用程序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zlTuring">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/imgs/Menhera-help.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zlTuring的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">gradle 指南之构建java web应用程序</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T22:10:40+08:00">
+                2018-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gradle/" itemprop="url" rel="index">
+                    <span itemprop="name">gradle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  gradle官方文档
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="构建Java-Web应用程序"><a href="#构建Java-Web应用程序" class="headerlink" title="构建Java Web应用程序"></a>构建Java Web应用程序</h1><p>Gradle包含一个war用于构建Java Web应用程序的插件，社区提供了一个优秀的插件，gretty用于在Jetty或Tomcat上测试和部署Web应用程序。本指南演示了如何构建简单的Web应用程序并使用gretty插件将其部署到Jetty上。您还将学习如何使用Mockito框架为servlet编写单元测试，以及如何使用grettySelenium 编写针对Web应用程序的功能测试。</p>
+<h1 id="你需要什么"><a href="#你需要什么" class="headerlink" title="你需要什么"></a>你需要什么</h1><ul>
+<li>大约21分钟</li>
+<li>文本编辑器或IDE</li>
+<li>Java发行版，版本7或更高版本</li>
+<li>一个<a href="https://gradle.org/install?_ga=2.154729144.1255618932.1525922524-29619511.1524466760" target="_blank" rel="noopener">Gradle</a>，版本4.7或更高</li>
+</ul>
+<h1 id="创建一个Web应用程序"><a href="#创建一个Web应用程序" class="headerlink" title="创建一个Web应用程序"></a>创建一个Web应用程序</h1><p>Gradle包含一个war插件，该插件记录在<a href="https://docs.gradle.org/4.7/userguide/web_project_tutorial.html?_ga=2.257053135.517185745.1526823907-439201953.1526823907" target="_blank" rel="noopener">Web应用程序快速入门</a>和用户手册的<a href="https://docs.gradle.org/4.7/userguide/war_plugin.html?_ga=2.257053135.517185745.1526823907-439201953.1526823907" target="_blank" rel="noopener">WAR插件一章</a>中。该war插件扩展了Java插件以添加对Web应用程序的支持。默认情况下，它使用一个名为src/main/webapp与网络相关的资源的文件夹。</p>
+<blockquote>
+<p>用户手册中的“Web应用程序快速入门”部分仍然指向jetty插件，该插件不赞成gretty使用此处使用的插件。war然而，特定于该插件的部分很好，并且该部分将很快更新。</p>
+</blockquote>
+<p>因此，为名为webdemo的项目创建以下文件结构：</p>
+<pre><code>webdemo/
+    src/
+        main/
+            java/
+            webapp/
+        test
+            java/
+</code></pre><p>任何servlet或其他Java类将进入src/main/java，测试将进入src/test/java，其他Web工件将进入src/main/webapp。</p>
+<h1 id="添加一个Gradle构建文件"><a href="#添加一个Gradle构建文件" class="headerlink" title="添加一个Gradle构建文件"></a>添加一个Gradle构建文件</h1><p>添加一个调用build.gradle到项目根目录的文件，其中包含以下内容：<br>build.gradle</p>
+<pre><code>plugins {
+    id &apos;war&apos;  1️⃣
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile &apos;javax.servlet:javax.servlet-api:3.1.0&apos;  2️⃣
+    testCompile &apos;junit:junit:4.12&apos;
+}
+</code></pre><ol>
+<li>使用war插件</li>
+<li>当前发布的servlet API版本</li>
+</ol>
+<p>该war插件添加的配置providedCompile和providedRuntime，类似于compile和runtime常规的Java应用程序，以代表在本地需要的，但不应该被添加到生成的依赖webdemo.war文件。<br>该plugins语法用于应用java和war插件。任何版本都不需要，因为它们包含在Gradle发行版中。<br>通过执行wrapper任务为项目生成Gradle包装是一个很好的做法：</p>
+<pre><code>$ gradle wrapper --gradle-version=4.7
+:wrapper
+</code></pre><p>这将产生gradlew与gradlew.bat脚本和gradle内如所描述的与包装罐夹<a href="https://docs.gradle.org/4.7/userguide/gradle_wrapper.html?_ga=2.153850492.517185745.1526823907-439201953.1526823907" target="_blank" rel="noopener">包装器</a>的用户手册的。</p>
+<blockquote>
+<p>如果您使用的是Gradle 4.0或更高版本，则可能会看到您在本指南中可能看到的控制台输出较少的情况。在本指南中，使用–console=plain命令行上的标志显示输出。这是为了显示Gradle正在执行的任务。</p>
+</blockquote>
+<h1 id="像项目中添加一个servlet和元数据"><a href="#像项目中添加一个servlet和元数据" class="headerlink" title="像项目中添加一个servlet和元数据"></a>像项目中添加一个servlet和元数据</h1><p>定义Web应用程序元数据有两种选择。在servlet规范3.0版之前，元数据驻留在项目文件夹中调用的部署描述符web.xml中WEB-INF。从3.0开始，可以使用注释来定义元数据。<br>org/gradle/demo在src/main/java文件夹下创建一个包文件夹。添加一个servlet文件HelloServlet.java，其中包含以下内容：</p>
+<p>src/main/java/org/gradle/demo/HelloServlet.java</p>
+<pre><code>package org.gradle.demo;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(name = &quot;HelloServlet&quot;, urlPatterns = {&quot;hello&quot;}, loadOnStartup = 1) 1
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        response.getWriter().print(&quot;Hello, World!&quot;);  2
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        String name = request.getParameter(&quot;name&quot;);
+        if (name == null) name = &quot;World&quot;;
+        request.setAttribute(&quot;user&quot;, name);
+        request.getRequestDispatcher(&quot;response.jsp&quot;).forward(request, response);  3
+    }
+}
+</code></pre><ol>
+<li>基于注解的servlet</li>
+<li>GET请求返回一个简单的字符串</li>
+<li>POST请求转发到JSP页面</li>
+</ol>
+<p>该servlet使用@WebServlet注释进行配置。该doGet方法通过编写“Hello，World！”来响应HTTP GET请求 字符串到输出写入器。它通过查找调用的请求参数name并将其request作为一个称为属性的值添加到HTTP POST请求中user，然后转发到response.jsp页面。</p>
+<blockquote>
+<p>该war插件支持使用较早的web.xml部署描述符，默认情况下该描述符应位于下面的WEB-INF文件夹中src/main/webapp。随意使用它作为基于注释的方法的替代方案。</p>
+</blockquote>
+<p>你现在有一个简单的servlet来响应HTTP GET和POST请求。</p>
+<h1 id="将jsp页面添加到演示应用程序"><a href="#将jsp页面添加到演示应用程序" class="headerlink" title="将jsp页面添加到演示应用程序"></a>将jsp页面添加到演示应用程序</h1><p>通过在文件夹中创建文件index.html，将index页面添加到应用程序的根src/main/webapp目录中，其中包含以下内容：</p>
+<p>src/main/webapp/index.html</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Web Demo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;Say &lt;a href=&quot;hello&quot;&gt;Hello&lt;/a&gt;&lt;/p&gt;  1⃣️
+
+&lt;form method=&quot;post&quot; action=&quot;hello&quot;&gt;   2⃣️
+  &lt;h2&gt;Name:&lt;/h2&gt;
+  &lt;input type=&quot;text&quot; id=&quot;say-hello-text-input&quot; name=&quot;name&quot; /&gt;
+  &lt;input type=&quot;submit&quot; id=&quot;say-hello-button&quot; value=&quot;Say Hello&quot; /&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><ol>
+<li>链接提交GET请求</li>
+<li>表单使用POST请求</li>
+</ol>
+<p>该index.html页面使用链接向servlet提交HTTP GET请求，并使用表单提交HTTP POST请求。该表单包含一个名为的文本字段name，该字段可由servlet在其doPost方法中访问。<br>在它的doPost方法中，servlet将控制转发给另一个称为的JSP页面response.jsp。因此，src/main/webapp用以下内容定义该名称的文件：</p>
+<p>src/main/webapp/response.jsp</p>
+<pre><code>&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Hello Page&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h2&gt;Hello, ${user}!&lt;/h2&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>该response页面访问user请求中的变量并将其呈现在h2标记中。</p>
+<h1 id="添加gretty插件并运行应用程序"><a href="#添加gretty插件并运行应用程序" class="headerlink" title="添加gretty插件并运行应用程序"></a>添加gretty插件并运行应用程序</h1><p>该gretty插件是一个出色的社区支持的插件，可以在Gradle插件库中找到<br><a href="https://plugins.gradle.org/plugin/org.akhikhl.gretty" target="_blank" rel="noopener">https://plugins.gradle.org/plugin/org.akhikhl.gretty</a>。该插件可以轻松地在Jetty或Tomcat上运行或测试webapps。<br>通过将下面的一行到将它添加到我们的项目plugins中块build.gradle。</p>
+<p>Updating build.gradle to add gretty</p>
+<pre><code>plugins {
+    id &apos;war&apos;
+    id &apos;org.akhikhl.gretty&apos; version &apos;1.4.2&apos; 1️⃣
+}
+</code></pre><ol>
+<li>添加gretty插件</li>
+</ol>
+<p>该gretty插件将大量任务添加到应用程序中，对于在Jetty或Tomcat环境中运行或测试非常有用。现在，您可以使用该appRun任务构建应用程序并将其部署到默认（Jetty）容器。</p>
+<p>Executing the appRun task</p>
+<pre><code>$ ./gradlew appRun
+:prepareInplaceWebAppFolder
+:createInplaceWebAppFolder UP-TO-DATE
+:compileJava
+:processResources UP-TO-DATE
+:classes
+:prepareInplaceWebAppClasses
+:prepareInplaceWebApp
+:appRun
+12:25:13 INFO  Jetty 9.2.15.v20160210 started and listening on port 8080
+12:25:13 INFO  webdemo runs at:
+12:25:13 INFO    http://localhost:8080/webdemo
+Press any key to stop the server.
+&gt; Building 87% &gt; :appRun
+
+BUILD SUCCESSFUL
+</code></pre><p>您现在可以通过http：// localhost：8080 / webdemo访问Web应用程序，并单击该链接执行GET请求或提交表单以执行POST请求。<br>虽然输出说Press any key to stop the server，标准输入不被Gradle拦截。要停止该过程，请按ctrl-C。</p>
+<h1 id="单元测试使用Mockito的servlet"><a href="#单元测试使用Mockito的servlet" class="headerlink" title="单元测试使用Mockito的servlet"></a>单元测试使用Mockito的servlet</h1><p>开源的<a href="http://site.mockito.org/" target="_blank" rel="noopener">Mockito框架</a>可以轻松地单元测试Java应用程序。将Mockito依赖项添加到配置build.gradle下的文件中testCompile。</p>
+<p>Adding the Mockito library to build.gradle</p>
+<pre><code>dependencies {
+    providedCompile &apos;javax.servlet:javax.servlet-api:3.1.0&apos;
+    testCompile &apos;junit:junit:4.12&apos;
+    testCompile &apos;org.mockito:mockito-core:2.7.19&apos;  1️⃣
+}
+</code></pre><ol>
+<li>添加Mockito</li>
+</ol>
+<p>要单元测试servlet，请org.gradle.demo在下面创建一个包文件夹src/test/java。添加HelloServletTest.java包含以下内容的测试类文件：</p>
+<p>src/test/java/org/gradle/demo/HelloServletTest.java</p>
+<pre><code>package org.gradle.demo;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
+public class HelloServletTest {
+    @Mock private HttpServletRequest request;
+    @Mock private HttpServletResponse response;
+    @Mock private RequestDispatcher requestDispatcher;
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void doGet() throws Exception {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+
+        when(response.getWriter()).thenReturn(printWriter);
+
+        new HelloServlet().doGet(request, response);
+
+        assertEquals(&quot;Hello, World!&quot;, stringWriter.toString());
+    }
+
+    @Test
+    public void doPostWithoutName() throws Exception {
+        when(request.getRequestDispatcher(&quot;response.jsp&quot;))
+            .thenReturn(requestDispatcher);
+
+        new HelloServlet().doPost(request, response);
+
+        verify(request).setAttribute(&quot;user&quot;, &quot;World&quot;);
+        verify(requestDispatcher).forward(request,response);
+    }
+
+    @Test
+    public void doPostWithName() throws Exception {
+        when(request.getParameter(&quot;name&quot;)).thenReturn(&quot;Dolly&quot;);
+        when(request.getRequestDispatcher(&quot;response.jsp&quot;))
+            .thenReturn(requestDispatcher);
+
+        new HelloServlet().doPost(request, response);
+
+        verify(request).setAttribute(&quot;user&quot;, &quot;Dolly&quot;);
+        verify(requestDispatcher).forward(request,response);
+    }
+}
+</code></pre><p>测试创建模拟对象HttpServletRequest，HttpServletResponse以及RequestDispatcher类。对于doGet测试，创建一个PrintWriter使用a的StringWriter对象，并将模拟请求对象配置为在getWriter调用方法时将其返回。在调用doGet方法之后，测试检查返回的字符串是否正确。<br>对于发布请求，模拟请求被配置为返回给定名称（如果存在），否则getRequestDispatcher返回null，并且该方法返回关联的模拟对象。调用该doPost方法将执行请求。然后，Mockito验证是否setAttribute使用正确的参数在模拟响应上调用了该forward方法，并且在请求分派器上调用了该方法。</p>
+<p>您现在可以使用Gradle对该test任务（或任何类似build依赖它的任务）进行测试。</p>
+<pre><code>$ ./gradlew build
+:compileJava UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:war
+:assemble
+:compileTestJava
+:processTestResources UP-TO-DATE
+:testClasses
+:test
+:check
+:build
+
+BUILD SUCCESSFUL
+</code></pre><p>测试输出可以以build/reports/tests/test/index.html通常的方式访问。你应该得到类似于以下的结果：</p>
+<p><img src="https://guides.gradle.org/building-java-web-applications/images/test-results.png" alt=""></p>
+<h1 id="添加功能测试"><a href="#添加功能测试" class="headerlink" title="添加功能测试"></a>添加功能测试</h1><p>该gretty插件与Gradle结合使用，可以轻松地为Web应用程序添加功能测试。为此，请将以下几行添加到您的build.gradle文件中：</p>
+<p>Gretty additions to build.gradle for functional testing</p>
+<pre><code>gretty {
+    integrationTestTask = &apos;test&apos;  1⃣️
+}
+
+// ... rest from before ...
+
+dependencies {
+    providedCompile &apos;javax.servlet:javax.servlet-api:3.1.0&apos;
+    testCompile &apos;junit:junit:4.12&apos;
+    testCompile &apos;org.mockito:mockito-core:2.7.19&apos;
+    testCompile &apos;io.github.bonigarcia:webdrivermanager:1.6.1&apos; 2⃣️
+    testCompile &apos;org.seleniumhq.selenium:selenium-java:3.3.1&apos; 3⃣️
+}
+</code></pre><ol>
+<li>告诉gretty在测试中启动和停止服务器</li>
+<li>自动安装浏览器驱动程序</li>
+<li>使用Selenium进行功能测试</li>
+</ol>
+<p>该gretty插件需要知道哪个任务需要服务器的启动和停止。经常将它分配给您自己的任务，但为了保持简单，只需使用现有test任务即可。<br><a href="http://www.seleniumhq.org/" target="_blank" rel="noopener">Selenium</a>是用于编写功能测试的流行开源API。2.0版基于WebDriver API。最近的版本要求测试人员为他们的浏览器下载和安装一个WebDriver版本，这可能很乏味而且很难自动化。该WebDriverManager项目可以很容易地让摇篮处理这个过程你。<br>将以下功能测试添加到您的项目的src/test/java目录中：</p>
+<p>src/test/java/org/gradle/demo/HelloServletFunctionalTest.java</p>
+<pre><code>package org.gradle.demo;
+
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import static org.junit.Assert.assertEquals;
+
+public class HelloServletFunctionalTest {
+    private WebDriver driver;
+
+    @BeforeClass
+    public static void setupClass() {
+        ChromeDriverManager.getInstance().setup(); 1⃣️
+    }
+
+    @Before
+    public void setUp() {
+        driver = new ChromeDriver();           2⃣️   
+    }
+
+    @After
+    public void tearDown() {
+        if (driver != null)
+            driver.quit();                3⃣️         
+    }
+
+    @Test
+    public void sayHello() throws Exception {      4⃣️
+        driver.get(&quot;http://localhost:8080/webdemo&quot;);
+
+        driver.findElement(By.id(&quot;say-hello-text-input&quot;)).sendKeys(&quot;Dolly&quot;);
+        driver.findElement(By.id(&quot;say-hello-button&quot;)).click();
+
+        assertEquals(&quot;Hello Page&quot;, driver.getTitle());
+        assertEquals(&quot;Hello, Dolly!&quot;, driver.findElement(By.tagName(&quot;h2&quot;)).getText());
+    }
+}
+</code></pre><ol>
+<li>如有必要，下载并安装浏览器驱动程序</li>
+<li>启动浏览器自动化</li>
+<li>完成后关闭浏览器</li>
+<li>使用Selenium API运行功能测试</li>
+</ol>
+<p>此测试的WebDriverManager部分检查最新版本的二进制文件，并在它不存在时下载并安装它。然后，sayHello测试方法将Chrome浏览器驱动到我们应用程序的根目录，填写输入文本字段，单击按钮并验证目标页面的标题，并且h2标记包含预期的字符串。<br>WebDriverManager系统支持Chrome，Opera，Internet Explorer，Microsoft Edge，PhantomJS和Firefox。检查项目文档以获取更多详细信息。</p>
+<h1 id="运行功能测试"><a href="#运行功能测试" class="headerlink" title="运行功能测试"></a>运行功能测试</h1><p>使用test任务运行测试：</p>
+<pre><code>$ ./gradlew test
+:prepareInplaceWebAppFolder UP-TO-DATE
+:createInplaceWebAppFolder UP-TO-DATE
+:compileJava UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:prepareInplaceWebAppClasses UP-TO-DATE
+:prepareInplaceWebApp UP-TO-DATE
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:appBeforeIntegrationTest
+12:57:56 INFO  Jetty 9.2.15.v20160210 started and listening on port 8080
+12:57:56 INFO  webdemo runs at:
+12:57:56 INFO    http://localhost:8080/webdemo
+:test
+:appAfterIntegrationTest
+Server stopped.
+
+BUILD SUCCESSFUL
+</code></pre><p>该gretty插件在默认端口上启动嵌入式版本的Jetty 9，执行测试并关闭服务器。如果你看，你会看到Selenium系统打开一个新的浏览器，访问网站，填写表格，点击按钮，检查新页面，最后关闭浏览器。<br>集成测试通常通过创建单独的源集和专用任务来处理，但这超出了本指南的范围。有关详细信息，请参阅<a href="http://akhikhl.github.io/gretty-doc/" target="_blank" rel="noopener">Gretty文档</a>。</p>
+<h1 id="总结概要"><a href="#总结概要" class="headerlink" title="总结概要"></a>总结概要</h1><p>在本指南中，您学习了如何：</p>
+<ul>
+<li>使用warGradle构建中的插件来定义一个Web应用程序</li>
+<li>将一个servlet和JSP页面添加到一个Web应用程序</li>
+<li>使用gretty插件来部署应用程序</li>
+<li>单元使用Mockito框架测试一个servlet</li>
+<li>使用gretty和Selenium 功能测试Web应用程序  </li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文档/" rel="tag"># 文档</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/gradle-指南之构建Java库/" rel="next" title="gradle 指南之构建Java库">
+                <i class="fa fa-chevron-left"></i> gradle 指南之构建Java库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/imgs/Menhera-help.jpg"
+                alt="zlTuring" />
+            
+              <p class="site-author-name" itemprop="name">zlTuring</p>
+              <p class="site-description motion-element" itemprop="description">zlTuring的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#构建Java-Web应用程序"><span class="nav-number">1.</span> <span class="nav-text">构建Java Web应用程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#你需要什么"><span class="nav-number">2.</span> <span class="nav-text">你需要什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建一个Web应用程序"><span class="nav-number">3.</span> <span class="nav-text">创建一个Web应用程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加一个Gradle构建文件"><span class="nav-number">4.</span> <span class="nav-text">添加一个Gradle构建文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#像项目中添加一个servlet和元数据"><span class="nav-number">5.</span> <span class="nav-text">像项目中添加一个servlet和元数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将jsp页面添加到演示应用程序"><span class="nav-number">6.</span> <span class="nav-text">将jsp页面添加到演示应用程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加gretty插件并运行应用程序"><span class="nav-number">7.</span> <span class="nav-text">添加gretty插件并运行应用程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单元测试使用Mockito的servlet"><span class="nav-number">8.</span> <span class="nav-text">单元测试使用Mockito的servlet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加功能测试"><span class="nav-number">9.</span> <span class="nav-text">添加功能测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行功能测试"><span class="nav-number">10.</span> <span class="nav-text">运行功能测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结概要"><span class="nav-number">11.</span> <span class="nav-text">总结概要</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zlTuring</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

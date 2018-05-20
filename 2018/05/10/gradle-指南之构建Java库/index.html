@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="zlTuring的博客">
 <meta property="og:description" content="gradle官方文档">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-10T15:33:38.000Z">
+<meta property="og:updated_time" content="2018-05-20T15:25:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle 指南之构建Java库">
 <meta name="twitter:description" content="gradle官方文档">
@@ -379,7 +379,7 @@ $ cd building-java-libraries
 <pre><code>。
 ├──build.gradle
 ├──gradle
-│└──wrapper       1
+│└──wrapper       1⃣️
 │├──gradle-wrapper.jar
 │└──gradle-wrapper.properties
 ├──gradlew
@@ -387,10 +387,10 @@ $ cd building-java-libraries
 ├──settings.gradle
 └──src
     ├──main
-    │└──java     2
+    │└──java     2⃣️
     │└──Library.java
     └──test
-        └──java    3
+        └──java    3⃣️
             └──LibraryTest.java
 </code></pre><ol>
 <li>为包装文件生成文件夹</li>
@@ -399,7 +399,7 @@ $ cd building-java-libraries
 </ol>
 <p>您现在拥有一个简单的Java库项目所需的组件。</p>
 <h2 id="查看生成的项目文件"><a href="#查看生成的项目文件" class="headerlink" title="查看生成的项目文件"></a>查看生成的项目文件</h2><p>该<strong>settings.gradle</strong>文件受到严重评论，但只有一条活动行：<br>生成的设置</p>
-<pre><code>rootProject.name=&apos;building-java-libraries&apos;  1
+<pre><code>rootProject.name=&apos;building-java-libraries&apos;  1⃣️
 </code></pre><ol>
 <li>这将分配根项目的名称。</li>
 </ol>
@@ -409,15 +409,15 @@ $ cd building-java-libraries
 }
 
 dependencies {
-    api &apos;org.apache.commons:commons-math3:3.6.1&apos;   2
+    api &apos;org.apache.commons:commons-math3:3.6.1&apos;   2⃣️
 
-    implementation &apos;com.google.guava:guava:23.0&apos;   3
+    implementation &apos;com.google.guava:guava:23.0&apos;   3⃣️
 
-    testImplementation &apos;junit:junit:4.12&apos;    4
+    testImplementation &apos;junit:junit:4.12&apos;    4⃣️
 }
 
 repositories {
-    jcenter()   1
+    jcenter()   1⃣️
 }
 version = &apos;0.1.0&apos;
 
@@ -512,6 +512,10 @@ public class LibraryTest {
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/05/20/gradle-指南之构建java-web应用程序/" rel="prev" title="gradle 指南之构建java web应用程序">
+                gradle 指南之构建java web应用程序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -591,7 +595,7 @@ public class LibraryTest {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
