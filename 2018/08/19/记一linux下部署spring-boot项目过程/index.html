@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux,mysql,spring boot," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在liunx下从零开始搭建环境并部署应用">
+<meta name="keywords" content="linux,mysql,spring boot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一linux下部署spring boot项目过程">
+<meta property="og:url" content="http://yoursite.com/2018/08/19/记一linux下部署spring-boot项目过程/index.html">
+<meta property="og:site_name" content="zlTuring的博客">
+<meta property="og:description" content="在liunx下从零开始搭建环境并部署应用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-19T10:26:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一linux下部署spring boot项目过程">
+<meta name="twitter:description" content="在liunx下从零开始搭建环境并部署应用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/19/记一linux下部署spring-boot项目过程/"/>
+
+
+
+
+
+  <title>记一linux下部署spring boot项目过程 | zlTuring的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zlTuring的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">zlblog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/19/记一linux下部署spring-boot项目过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zlTuring">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/imgs/Menhera-help.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zlTuring的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">记一linux下部署spring boot项目过程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-19T14:39:51+08:00">
+                2018-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  在liunx下从零开始搭建环境并部署应用
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在linux下部署Spring-Boot应用"><a href="#在linux下部署Spring-Boot应用" class="headerlink" title="在linux下部署Spring Boot应用"></a>在linux下部署Spring Boot应用</h1><p>怎么说呢？我很不擅长表达。写感觉也一样。TMD，我是不是废了。好纠结呀，就按我自己的方式来说吧！<br>主要记录mysql 安装过程中的一下问题。</p>
+<h2 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h2><ul>
+<li><p>Centos 6 64位</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><h3 id="安装java"><a href="#安装java" class="headerlink" title="安装java"></a>安装java</h3><p>查看系统内置的jdk，使用如下命令</p>
+<p>  rpm -qa | grep java</p>
+</li>
+</ul>
+<p>可以使用如下命令卸载</p>
+<pre><code>rpm -e --nodeps jdk相关名称
+</code></pre><p>因为我的服务器都没有安装就跳过了这步，其实如果系统自带的版本不是很低的话，我觉得也可以使用。不必这么麻烦重装。</p>
+<p>个人比较喜欢使用软件管理工具。如yum brew，方便省事。<br>使用yum搜索java</p>
+<pre><code>yum search java-1.8
+</code></pre><p>安装java 我只装了运行环境。</p>
+<pre><code>yum install -y java-1.8.0-openjdk.x86_64
+</code></pre><p>安装完后就可以使用如下命令看有没有成功</p>
+<pre><code>java -verison
+</code></pre><h2 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h2><p>重点来了，安装mysql是有点费事，google了好久才搞定。而且中间各种小问题。真的麻烦。</p>
+<h3 id="用yum安装mysql"><a href="#用yum安装mysql" class="headerlink" title="用yum安装mysql"></a>用yum安装mysql</h3><p>step1：检测系统是否自带安装mysql<br>    yum list installed | grep mysql</p>
+<p>step2: 删除系统自带的mysql及其依赖<br>    yum -y remove mysql-libs.x86_64</p>
+<p>step3: 给centos 添加rpm源，并选择脚新的源<br>    wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm<br>    yum localinstall mysql-community-release-el6-5.noarch.rpm<br>    yum repolist all | grep mysql<br>    yum-config-manager –disable mysql55-community<br>    yum-config-manager –disable mysql56-community<br>    yum-config-manager –enable mysql57-community-dmr<br>    yum repolist enabled | grep mysql</p>
+<p>step4: 安装mysql 服务器<br>    yum install mysql-community-server</p>
+<p>step5: 启动 停止 重启mysql<br>    service mysqld start<br>    service mysqld stop<br>    service mysqld restart</p>
+<p>step6: 设置密码<br>    mysql&gt; set password for ‘root‘@’localhost’ =password(‘password’);</p>
+<p>以上是我看的别人的blog，我就总结一下吧。重点是给centos添加rpm源，<strong>不同的系统版本源是不一样的</strong>。这里需要注意下。详细可以查看<a href="https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/" target="_blank" rel="noopener">官方说明文档</a>。</p>
+<p>如果顺利的话，现在已装上了mysql，当你兴高采烈的输入mysql -uroot -p时。一个蛋痛的问题出现了。<br>密码是啥？，好像默认没有，管他三七二十一，按个enter再说。</p>
+<pre><code># mysql -u root -p
+Enter password:
+ERROR 1045 (28000): Access denied for user &apos;root&apos;@&apos;localhost&apos; (using password: NO)
+</code></pre><p>这是什么鬼哟。都没有设置哪来的密码<br>又不断google，得到解决方法如下：</p>
+<pre><code># /etc/init.d/mysql stop
+# mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;
+# mysql -u root mysql
+mysql&gt; UPDATE user SET Password=PASSWORD(&apos;newpassword&apos;) where USER=&apos;root&apos; and host=&apos;root&apos; or host=&apos;localhost&apos;;//把空的用户密码都修改成非空的密码就行了。
+mysql&gt; FLUSH PRIVILEGES;
+mysql&gt; quit
+# /etc/init.d/mysqld restart
+# mysql -uroot -p
+Enter password: &lt;输入新设的密码newpassword&gt;
+</code></pre><p>问题有出现：提示Unknown column ‘password’ in ‘field list’</p>
+<p>原来MySql5.7 user表没有了password字段，<strong>改名为authentication_string了</strong>。</p>
+<p>到这里mysql已经全都安装完成了。<br>你以为真的完了吗？太天真了，我想要远程连接我服务器上的mysql这么办呢？<br>下面将设置mysql远程访问。</p>
+<h3 id="mysql远程访问设置"><a href="#mysql远程访问设置" class="headerlink" title="mysql远程访问设置"></a>mysql远程访问设置</h3><p>step1: 连接到服务器mysql<br>step2:切换mysql数据库<br>    mysql&gt; USE mysql; </p>
+<p>step3:查看现有用户,密码及允许连接的主机<br>    SELECT User, authentication_string, Host FROM user; </p>
+<p>step4:下面我们另外添加一个新的 root 用户, 密码mypassword, 只允许192.168.1.100连接<br>    GRANT ALL PRIVILEGES ON <em>.</em> TO‘myuser‘@’192.168.1.100’IDENTIFIED BY’mypassword’WITH GRANT OPTION;</p>
+<p>如果不需要限制某个ip 可以使用% ，表示所有ip都可以连接。</p>
+<p>step5: 刷新权限<br>    FLUSH PRIVILEGES;</p>
+<p>step6:查看mysql配置文件my.cnf是否只开了127.0.0.1这个主机地址。bind-address = 127.0.0.1若是则删之。<br>可以通过如下命令查找my.cnf配置文件<br>    find / -name my.cnf</p>
+<p>step7: 重启mysql<br>我也不知道需不需要重启，反正我是重启后才有用的，纠结了我半天。。</p>
+<h2 id="上传Spring-Boot项目到服务器and管理"><a href="#上传Spring-Boot项目到服务器and管理" class="headerlink" title="上传Spring Boot项目到服务器and管理"></a>上传Spring Boot项目到服务器and管理</h2><p>step1:打成jar包<br>    cd 项目根目录（和pom.xml同级）<br>    mvn clean package</p>
+<pre><code>## 或者执行下面的命令
+## 排除测试代码后进行打包
+mvn clean package  -Dmaven.test.skip=true
+</code></pre><p>step2:上传到服务器<br>     scp test.jar(需要上传的文件) <a href="mailto:root@45.77.12.142" target="_blank" rel="noopener">root@45.77.12.142</a>:/root(服务器目录)</p>
+<p>step3: 启动项目<br>    java -jar  target/spring-boot-scheduler-1.0.0.jar<br>这种方式，只要控制台关闭，服务就不能访问了。下面我们使用在后台运行的方式来启动:<br>    nohup java -jar target/spring-boot-scheduler-1.0.0.jar &amp;</p>
+<p>也可以在启动的时候选择读取不同的配置文件<br>    java -jar app.jar –spring.profiles.active=dev</p>
+<p>这里其实也不方便，如果我上传了jar包，里面包含了配置文件，想修改怎么办呢？<br>springboot 有读取外部配置文件的方法，如下优先级：</p>
+<ul>
+<li>第一种是在jar包的同一目录下建一个config文件夹，然后把配置文件放到这个文件夹下。</li>
+<li>第二种是直接把配置文件放到jar包的同级目录.</li>
+<li>第三种在classpath下建一个config文件夹，然后把配置文件放进去。</li>
+<li>第四种是在classpath下直接放配置文件。</li>
+</ul>
+<p>看到上面的优先级没，我们通常在<strong>src/main/resources</strong> 文件夹下创建的<strong>application.properties</strong> 文件的<strong>优先级</strong>竟然是<strong>最低的！！！</strong>。</p>
+<p>这就很skr了。。<br>在服务器的jar包同目录下建config文件夹，在把配置文件放进去，随便修改就行了。</p>
+<p>step4:停止重启项目<br>    ps -ef|grep java </p>
+<pre><code>##拿到对于Java程序的pid
+kill -9 pid
+## 再次重启
+Java -jar  xxxx.jar
+</code></pre><p>step:使用脚本执行<br>在maven中加入以下配置<br>    <plugin><br>        <groupid>org.springframework.boot</groupid><br>        <artifactid>spring-boot-maven-plugin</artifactid><br>        <configuration><br>            <executable>true</executable><br>        </configuration><br>    </plugin></p>
+<p>启动方式：<br>    ./yourapp.jar</p>
+<p>也可以做一个软链接指向你的jar包并加入到init.d中，然后用命令来启动。<br>    ln -s /var/yourapp/yourapp.jar /etc/init.d/yourapp<br>    chmod +x /etc/init.d/yourapp</p>
+<p>这样就可以使用stop或者是restart命令去管理你的应用。<br>    /etc/init.d/yourapp start|stop|restart</p>
+<p>或者<br>    service yourapp start|stop|restart</p>
+<h2 id="liunx配置"><a href="#liunx配置" class="headerlink" title="liunx配置"></a>liunx配置</h2><h3 id="开放端口"><a href="#开放端口" class="headerlink" title="开放端口"></a>开放端口</h3><p>修改防火墙配置文件<br>    vi /etc/sysconfig/iptables </p>
+<p>注意：增加的开放3306端口的语句一定要在icmp-host-prohibited之前<br>    -A INPUT -p tcp -m state –state NEW -m tcp –dport 3306 -j ACCEPT<br>    -A INPUT -p tcp -m state –state NEW -m tcp –dport 8080 -j ACCEPT</p>
+<p>重新加载规则<br>    service iptables restart  </p>
+<p>到此已经大致完成了，就是可能后续还得添加redis服务。</p>
+<p>感谢万能的google及无私分享的bolg主们。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.ityouknow.com/springboot/2017/05/09/springboot-deploy.html" target="_blank" rel="noopener">springboot(十二)：springboot如何测试打包部署</a><br><a href="http://yihuawanglv.github.io/2016/03/21/%E5%9C%A8linux%E4%B8%8B%E9%83%A8%E7%BD%B2spring-boot%E9%A1%B9%E7%9B%AE%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">在linux下部署spring boot项目过程记录</a><br><a href="https://www.jianshu.com/p/de29788146f9" target="_blank" rel="noopener">MySQL给root开启远程访问权限</a><br><a href="https://blog.csdn.net/wohaqiyi/article/details/79940380" target="_blank" rel="noopener">springboot启动读取外部配置文件</a><br><a href="https://blog.csdn.net/u014066037/article/details/55194802" target="_blank" rel="noopener">CentOS7和CentOS6怎样开启MySQL远程访问</a><br><a href="https://segmentfault.com/a/1190000003049498" target="_blank" rel="noopener">CentOS 6.5/6.6 安装（install）mysql 5.7 最完整版教程</a><br><a href="https://www.jianshu.com/p/b913dbb16e57" target="_blank" rel="noopener">CentOS 安装Mysql 5.7</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+            <a href="/tags/spring-boot/" rel="tag"># spring boot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/01/Vue学习指南/" rel="next" title="Vue学习指南">
+                <i class="fa fa-chevron-left"></i> Vue学习指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/imgs/Menhera-help.jpg"
+                alt="zlTuring" />
+            
+              <p class="site-author-name" itemprop="name">zlTuring</p>
+              <p class="site-description motion-element" itemprop="description">zlTuring的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在linux下部署Spring-Boot应用"><span class="nav-number">1.</span> <span class="nav-text">在linux下部署Spring Boot应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境说明"><span class="nav-number">1.1.</span> <span class="nav-text">环境说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">1.2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装java"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装java</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mysql"><span class="nav-number">1.3.</span> <span class="nav-text">安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用yum安装mysql"><span class="nav-number">1.3.1.</span> <span class="nav-text">用yum安装mysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql远程访问设置"><span class="nav-number">1.3.2.</span> <span class="nav-text">mysql远程访问设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传Spring-Boot项目到服务器and管理"><span class="nav-number">1.4.</span> <span class="nav-text">上传Spring Boot项目到服务器and管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#liunx配置"><span class="nav-number">1.5.</span> <span class="nav-text">liunx配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开放端口"><span class="nav-number">1.5.1.</span> <span class="nav-text">开放端口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zlTuring</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
